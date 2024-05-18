@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Validation</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    width: 80%;
+    max-width: 600px;
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  label {
+    font-size: 18px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+  }
+  input[type="submit"] {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  input[type="submit"]:hover {
+    background-color: #218838;
+  }
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Form Validation</h2>
+  <form id="myForm" onsubmit="return validateForm()">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+    
+    <label for="phone">Phone:</label><br>
+    <input type="text" id="phone" name="phone" required><br><br>
+    
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+    
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+    
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+    
+    <input type="submit" value="Submit">
+  </form>
+  
+  <div id="errorMessages" class="error"></div>
+</div>
+
+<script>
+function validateForm() {
+  var name = document.getElementById('name').value;
+  var phone = document.getElementById('phone').value;
+  var email = document.getElementById('email').value;
+  var description = document.getElementById('description').value;
+  var password = document.getElementById('password').value;
+  var errorMessages = document.getElementById('errorMessages');
+  errorMessages.innerHTML = '';
+
+  // Phone number validation
+  if (!/^\d{10}$/.test(phone)) {
+    errorMessages.innerHTML += 'Phone number should be a 10-digit number & no alphabets are allowed.<br>';
+  }
+  
+  // Email validation
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    errorMessages.innerHTML += 'Email should be a valid email address.<br>';
+  }
+  
+  // Description word limit validation
+  var descriptionWords = description.split(/\s+/).length;
+  if (descriptionWords > 200) {
+    errorMessages.innerHTML += 'Description should not exceed 200 words.<br>';
+  }
+  
+  // Password validation
+  if (password.length < 8 || !/[0-9]/.test(password) || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+    errorMessages.innerHTML += 'Password should be at least 8 characters long and contain at least one number and one special character.<br>';
+  }
+  
+  // If there are error messages, prevent form submission
+  if (errorMessages.innerHTML !== '') {
+    return false;
+  }
+  
+  return true;
+}
+</script>
+
+</body>
+</html>
